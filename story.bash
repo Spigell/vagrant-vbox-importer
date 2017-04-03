@@ -1,3 +1,4 @@
+set -x
 host_ip=$(config host.ip)
 host_port=$(config host.port)
 host_user=$(config host.user)
@@ -19,7 +20,7 @@ if [[ ! $box_base ]];then
 fi
 
 if [[ -z $host_ip ]]; then
-  echo "No ip given"
+  echo "No ip specified"
   exit 2
 fi
 
@@ -61,4 +62,4 @@ rm -rf /tmp/pass.txt
 ssh -o StrictHostKeyChecking=no $vagrant_user@$host_ip $ssh_check_key ' exit ' && echo "ok user added"
 
 
-#vagrant package --base $box_base --output $box_name 
+vagrant package --base $box_base --output $box_name 
