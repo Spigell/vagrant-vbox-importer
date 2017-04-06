@@ -1,4 +1,9 @@
-set -x
+debug=$(config debug)
+
+if [[ $debug ]];then
+  set -x
+fi
+
 host_ip=$(config host.ip)
 host_port=$(config host.port)
 host_user=$(config host.user)
@@ -12,6 +17,8 @@ vagrant_private_key_file=$(config vagrant.private_key_file)
 
 box_name=$(config box.name)
 box_base=$(config box.base)
+
+which sshpass &>/dev/null && sshpass_installed=yes
 
 
 if [[ ! $box_base ]];then
@@ -43,6 +50,11 @@ elif [[ ! $vagrant_private_key_file ]]; then
   echo "private key file not specified. ssh check will be using password method."
 fi  
 
+if [[ ! $sshpass_installed == yes ]] ; then 
+  echo "sshpass not installed. Ignoring your pass..."
+fi
+
+
 if [[ $host_password ]];then
   echo $host_password > /tmp/pass.txt
   sshpass_opt='sshpass -f /tmp/pass.txt'
@@ -60,6 +72,5 @@ $sshpass_opt ssh -t -o StrictHostKeyChecking=no $host_user@$host_ip -p $host_por
 rm -rf /tmp/pass.txt
 
 ssh -o StrictHostKeyChecking=no $vagrant_user@$host_ip $ssh_check_key ' exit ' && echo "ok user added"
-
 
 vagrant package --base $box_base --output $box_name 
