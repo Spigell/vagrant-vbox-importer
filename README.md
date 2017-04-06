@@ -23,7 +23,7 @@ Add user to Virtualbox's VM according with Vagrant user [guide](https://www.vagr
 
 add configuration in your yaml file
 
-    $ cat ./config.yaml
+    $ sparrow task ini vagrant/create
 ```
   host:
     ip: 192.168.0.23
@@ -41,7 +41,7 @@ add configuration in your yaml file
     name: package.box
     base: centos-master-test-iso
 ```
-    $ sparrow run vagrant/create --yaml config.yaml
+    $ sparrow task run vagrant/create
 
 # Parameters
 
