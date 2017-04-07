@@ -60,19 +60,22 @@ if [[ $host_password ]];then
   sshpass_opt='sshpass -f /tmp/pass.txt'
 fi
 
-$sshpass_opt ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $host_user@$host_ip -p $host_port 'sudo useradd "'$vagrant_user'" -m ; sleep 1 ; \
+$sshpass_opt ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $host_user@$host_ip -p $host_port 'sudo useradd "'$vagrant_user'" -m ; sleep 1 && \
   echo ""'$vagrant_user'":"'$vagrant_pass'"" | sudo chpasswd ; \
   echo "# Vagrant user.
 "'$vagrant_user'" ALL=(ALL) NOPASSWD: ALL
-Defaults:"'$vagrant_user'" !requiretty" | sudo tee -a /etc/sudoers &> /dev/null; \
+Defaults:"'$vagrant_user'" !requiretty" | sudo tee -a /etc/sudoers && \
   if [[ "'$password_only'" == yes ]]; then exit 0 ; fi; \
   sudo mkdir -m 700 /home/"'$vagrant_user'"/.ssh 2> /dev/null; \
   sudo chown "'$vagrant_user'" /home/"'$vagrant_user'"/.ssh ; \
-  echo "'$vagrant_key'" | sudo tee /home/"'$vagrant_user'"/.ssh/authorized_keys &> /dev/null; \
-  sudo chown "'$vagrant_user'" /home/"'$vagrant_user'"/.ssh/authorized_keys ;' &>/dev/null 
+  echo "'$vagrant_key'" | sudo tee /home/"'$vagrant_user'"/.ssh/authorized_keys ; \
+  sudo chown "'$vagrant_user'" /home/"'$vagrant_user'"/.ssh/authorized_keys ;' &>/dev/null
 
-rm -rf /tmp/pass.txt
+rm -rf /tmp/pass.txt 2>/dev/null
 
 ssh -o StrictHostKeyChecking=no $vagrant_user@$host_ip $ssh_check_key ' exit ' && echo "ok user added"
+ssh -o StrictHostKeyChecking=no $vagrant_user@$host_ip $ssh_check_key ' sudo shutdown -h now '
 
-vagrant package --base $box_base --output $box_name 
+sleep 15
+
+vagrant package --base $box_base --output $box_name

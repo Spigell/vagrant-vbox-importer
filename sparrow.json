@@ -1,5 +1,5 @@
 {
-    "version": "0.1.3",
+    "version": "0.1.4",
     "name": "vagrant-vbox-importer",
     "description" : "Add vagrant user and repackage your vbox into vagrant box",
 	"category" : "utilities",
