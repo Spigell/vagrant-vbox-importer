@@ -21,26 +21,26 @@ Add user to Virtualbox's VM according with Vagrant user [guide](https://www.vagr
     $ sparrow project create vagrant
     $ sparrow task add vagrant create vagrant-vbox-importer
 
-add configuration in your yaml file
+Add configuration in your yaml file:
 
     $ sparrow task ini vagrant/create
-```
-  host:
-    ip: 192.168.0.23
-    port: 22
-    user: root
-    password: pass
+
+    host:
+      ip: 192.168.0.23
+      port: 22
+      user: root
+      password: pass
   
-  vagrant:
-    user: vagrant
-    password: vagrant
-    public_key_file: /home/spigell/.ssh/keys/private/spigell.pub
-    private_key_file: /home/spigell/.ssh/keys/private/spigell
+    vagrant:
+      user: vagrant
+      password: vagrant
+      public_key_file: /home/spigell/.ssh/keys/private/spigell.pub
+      private_key_file: /home/spigell/.ssh/keys/private/spigell
   
-  box:
-    name: package.box
-    base: centos-master-test-iso
-```
+    box:
+      name: package.box
+      base: centos-master-test-iso
+
     $ sparrow task run vagrant/create
 
 # Parameters
